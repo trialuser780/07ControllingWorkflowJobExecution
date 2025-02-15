@@ -33,9 +33,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Test code
+        id: run-tests #This is added to refrence it later and step we are executing.
         run: npm run test
       - name: Upload test report
-        if: #if asetp fails the other jobs will not be executed.
+        if: steps.run-tests.outcome == 'failure' #if asetp fails the other jobs will not be executed.
         uses: actions/upload-artifact@v3
         with:
           name: test-report
