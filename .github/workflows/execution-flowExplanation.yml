@@ -13,9 +13,10 @@ jobs:
         id: cache
         uses: actions/cache@v3
         with:
-          path: ~/.npm
+          path: node_modules #~/.npm #we can use if condtion in all places where we used cache
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true' #steps.IDName(cache).OuputOfPreviousStep(outputs).cache-hit
         run: npm ci
       - name: Lint code
         run: npm run lint
@@ -75,3 +76,12 @@ jobs:
         run: ls
       - name: Deploy
         run: echo "Deploying..."
+  report: #To show if conditions work on job level. Previous was for steps
+    needs: [lint, deploy] #If we wantthe job to run only if the following jobs failed, we need to apply needs commnds and steps
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output information
+        run: |
+          echo "Somthing went wrong"
+          echo "{{ toJSON(github) }}"
