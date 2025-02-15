@@ -36,7 +36,7 @@ jobs:
         id: run-tests #This is added to refrence it later and step we are executing.
         run: npm run test
       - name: Upload test report
-        if: steps.run-tests.outcome == 'failure' #if asetp fails the other jobs will not be executed.
+        if: failure() && steps.run-tests.outcome == 'failure' #if asetp fails the other jobs will not be executed. failure() has to be used to ensure the the below executes along withthe condition
         uses: actions/upload-artifact@v3
         with:
           name: test-report
