@@ -1,8 +1,19 @@
 name: Reusable Deploy
-on: workflow_call #workflow_call is used to be called from other workflows #workflow_dispatch for manual running
+on: 
+  workflow_call: #workflow_call is used to be called from other workflows #workflow_dispatch for manual running
+    inputs:  #Keyword
+      artifact-name: #this is not a keyword, anynamecan be used
+        description: The name of the deployable artifact files
+        required: false
+        default: dist #if name not provide it would use a default name
+        type: string
 jobs: 
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Get code
+        uses: actions/download-artifact@v3
+        with: 
+          name: ${{ inputs.artifact-name }} #Keyword(inputs).DeclaredValueOnTOp(artifact-name) # dist-filesinstead of hard coding the value. It should be fecthed dynamically.
       - name: Output Information
         run: echo "Deploying & uploading..."

@@ -1,8 +1,37 @@
 name: Reusable Deploy
-on: workflow_call #workflow_call is used to be called from other workflows #workflow_dispatch for manual running
+on: 
+  workflow_call: #workflow_call is used to be called from other workflows #workflow_dispatch for manual running
+    inputs:  #Keyword
+      artifact-name: #this is not a keyword, anynamecan be used
+        description: The name of the deployable artifact files
+        required: false
+        default: dist #if name not provide it would use a default name
+        type: string
+    outputs: #to provide ouputs this has to be defined
+      result:
+        description: The result of the delpoyment operation 
+        value: ${{ jobs.deply.outputs.outcome }}   # KeywordDocsReffer(jobs).JobNAme(deply).KeywordUsed(outputs).ValueDEFVINEDBELOW(outcome) 
+    secrets: #Secrets neede by the workflow
+      some-secret:
+        required: false
+    print-deploy-result:
+      needs: deploy 
+      runs-on: ubuntu-latest
+      steps:
+        - name: Print deploy output
+          run: echo " ${{needs.deploy.outputs.result}} " #KeyWord(needs).deploy(JobITDEpendsMayBeMutipleSoSpecify).outputs.result(ValueDefined)
 jobs: 
   deploy:
+    outputs: #TO define the output variable ofthe entire job, declare here
+      outcome: ${{steps.set-result.outputs.step-result}} #${{steps.set-result.outputs.ValueName(step-result)}}
     runs-on: ubuntu-latest
     steps:
+      - name: Get code
+        uses: actions/download-artifact@v3
+        with: 
+          name: ${{ inputs.artifact-name }} #Keyword(inputs).DeclaredValueOnTOp(artifact-name) # dist-filesinstead of hard coding the value. It should be fecthed dynamically.
       - name: Output Information
         run: echo "Deploying & uploading..."
+      - name: Set result outputs #The output result name should be set so we can display as the jon failed or step fail;ed on a particular workflow
+        id: set-result
+        run: echo "::set-output name=step-result::'success'"  #name=step-result::ValueTOBeStored(success)

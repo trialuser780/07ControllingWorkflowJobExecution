@@ -67,6 +67,10 @@ jobs:
   deploy: #Here we are planning an entire workfloe to be resuse here
     needs: build
     uses:  ./.github/workflows/reusable.yml #pathofWorkflow #Here we do not reffer an action, but an entire workflow
+    with:
+      artifact-name: dist-files #Here what is defined in the previous step we are using it. As we do not want to use default as defined in reusable worflow.
+    secrets:
+      some-secret: {{ secrets.some-secret }}
   report: #To show if conditions work on job level. Previous was for steps
     needs: [lint, deploy] #If we wantthe job to run only if the following jobs failed, we need to apply needs commnds and steps
     if: failure()
