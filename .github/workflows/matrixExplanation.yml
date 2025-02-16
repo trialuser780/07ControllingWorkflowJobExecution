@@ -2,10 +2,17 @@ name: Matrix Demo
 on: push
 jobs:
   build:
+    continue-on-error: true #If we want job to continue even after failure we have to use at job level
     strategy: #run same job with different nodeversions and run-on
-      matrix:
+      matrix: #You can use any key you want below. So you can use later. Include key is a reserve key.
         node-version: [12, 14, 16] #provide multiple runner values here
         operating-system: [ubuntu-latest, windows-latest]
+        include:
+          - node-version: 18
+            operating-system: ubuntu-latest
+        exclude: #to exclud some combinations
+          - node-version: 12
+            operating-system: windows-latest
     runs-on: ${{ matric.operating-system}} #Keyword(matrix).ListtoperformOncePerOperation(operating-system)
     steps:
       - name: Get code
