@@ -1,0 +1,20 @@
+name: Matrix Demo
+on: push
+jobs:
+  build:
+    strategy: #run same job with different nodeversions and run-on
+      matrix:
+        node-version: [12, 14, 16] #provide multiple runner values here
+        operating-system: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matric.operating-system}} #Keyword(matrix).ListtoperformOncePerOperation(operating-system)
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
+        with: 
+          node-version: ${{ matrix.node-version}}
+      - name: Install dependencies
+        run: npm ci
+      - name: Build project
+        run: npm run build
