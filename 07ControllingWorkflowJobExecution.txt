@@ -1,0 +1,33 @@
+git remote add origin https://trialuser780@github.com/trialuser780/07ControllingWorkflowJobExecution.git
+
+git remote add origin https://trialuser780@github.com/trialuser780/08JobsDockerContainers.git
+
+git remote add origin https://trialuser780@github.com/trialuser780/09BuildingUsingCustomActions.git
+
+git remote add origin https://trialuser780@github.com/trialuser780/07ControllingWorkflowJobExecution.git
+
+git remote add origin https://trialuser780@github.com/trialuser780/10SecurityPermissions.git
+git remote add origin https://trialuser780@github.com/trialuser780/02GitGithubCrashCourse.git
+#For section 10
+#raise issues accordingly in GitHub issues tab
+
+Setting -> Gweneral Action
+#################################
+#create a uniuq bucket
+Add bucket policy
+#Open iD connect with AWS
+
+Add IAM credentials as per git hub documentation
+
+
+
+
+
+
+
+
+
+
+
+
+
